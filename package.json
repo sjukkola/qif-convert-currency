@@ -1,0 +1,15 @@
+{
+  "name": "qif-convert-currency",
+  "version": "1.0.0",
+  "description": "Node.js script for converting qif currency with given rate",
+  "main": "index.js",
+  "scripts": {
+    "convert": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Samu Jukkola <samujukkola@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "prompts": "2.1.0"
+  }
+}
