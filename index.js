@@ -21,16 +21,17 @@ const selectFileToParse = async (availabeFiles = readAvailableFiles()) => {
     throw Error("No available .QIF files");
 
   return await prompts([{
-    type: 'multiselect',
-    name: 'files',
-    message: 'Pick file(s) to convert',
-    choices: availabeFiles.map((filename) => {
-      return {
-        title: filename,
-        value: filename
-      }
-    }),
-    min: 1},
+      type: 'multiselect',
+      name: 'files',
+      message: 'Pick file(s) to convert',
+      choices: availabeFiles.map((filename) => {
+        return {
+          title: filename,
+          value: filename
+        }
+      }),
+      min: 1
+    },
     {
       type: 'number',
       name: 'rate',
@@ -38,12 +39,14 @@ const selectFileToParse = async (availabeFiles = readAvailableFiles()) => {
       round: 10,
       message: 'Give exhange rate',
       validate: (value) => typeof value === 'number',
-    }]);
+    }
+  ]);
 };
 
 const convertFile = (filename, exhangeRate) => {
   const file = readFile(filename);
-  const converted = file.replace(/(T)(-?\d+.\d*)/gm, (_ , b, c) => `T${(c * exhangeRate).toFixed(2)}`);
+  const converted = file.replace(/(T)(-?\d+.\d*)/gm, (_, b, c) => `T${(c * exhangeRate).toFixed(2)}`);
+
   fs.writeFile(filename, converted, err => {
     if (err) throw err;
     console.log(`${filename} currency converted with rate of ${exhangeRate}`);
@@ -54,4 +57,3 @@ const convertFile = (filename, exhangeRate) => {
   let response = await selectFileToParse();
   response.files.forEach(filename => convertFile(filename, response.rate));
 })();
-
